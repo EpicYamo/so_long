@@ -6,7 +6,7 @@
 /*   By: aaycan <aaycan@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 14:48:54 by aaycan            #+#    #+#             */
-/*   Updated: 2025/03/19 14:48:54 by aaycan           ###   ########.fr       */
+/*   Updated: 2025/04/07 16:11:58 by aaycan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,14 @@ int	count_lines(char *file_path, t_game *game_data)
 			free(line);
 	}
 	close(fd);
-    return (line_count);
+	return (line_count);
 }
 
 static void	fill_map_pt_two(t_game *game_data, char **argv, int line_count)
 {
 	int		i;
 	int		fd;
+	int		j;
 
 	i = 0;
 	fd = open(argv[1], O_RDONLY);
@@ -75,7 +76,13 @@ static void	fill_map_pt_two(t_game *game_data, char **argv, int line_count)
 		line_count--;
 		i++;
 	}
-	game_data->map[i] = NULL;
+	j = 0;
+	while (game_data->map[i - 1][j])
+		j++;
+	if (game_data->map[i - 1][j - 1] == '\n')
+		game_data->map[i] = get_next_line(fd);
+	else
+		game_data->map[i] = NULL;
 	close(fd);
 }
 

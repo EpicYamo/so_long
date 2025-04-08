@@ -6,7 +6,7 @@
 /*   By: aaycan <aaycan@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 14:14:29 by aaycan            #+#    #+#             */
-/*   Updated: 2025/03/19 14:14:29 by aaycan           ###   ########.fr       */
+/*   Updated: 2025/03/26 14:58:39 by aaycan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	fill_map(t_game *game_data, char **argv);
 int		count_lines(char *file_path, t_game *game_data);
 void	free_game_data(t_game *game_data, int line_count, int option);
 void	free_data_and_fail_exit(t_game *game_data, int line_count, int option);
-void    check_and_finish_map(t_game *game_data, int line_count);
+void	check_and_finish_map(t_game *game_data, int line_count);
 void	check_forbidden_elements(t_game *game_data, int line_count);
 void	fill_map_element_info(t_game *game_data, int line_count);
 void	fill_map_element_info_pt_four(t_game *game_data);
@@ -74,7 +74,7 @@ void	check_element_reachability(t_game *game_data);
 void	run_game(t_game *game_data);
 int		exit_game(t_game *game_data);
 void	ft_putnbr(int n);
-void	event_handler(int move_flag, t_game *game_data);
-int		render_map(t_game *game_data);
+void	game_loop(t_game *game_data);
+void	render_map(t_game *game_data);
 
 #endif

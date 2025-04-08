@@ -6,16 +6,51 @@
 /*   By: aaycan < aaycan@student.42kocaeli.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 17:40:09 by aaycan            #+#    #+#             */
-/*   Updated: 2025/03/23 17:40:09 by aaycan           ###   ########.fr       */
+/*   Updated: 2025/04/08 15:04:13 by aaycan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 #include <unistd.h>
 
-static void	render_map_pt_two(t_game *game_data);
+static int	input_handler(int key, t_game *game_data);
+static void	event_handler(int move_flag, t_game *game_data);
+static int	player_pos_updater(int key, t_game *game_data);
+static void	last_move_exit(t_game *game_data);
 
-void	event_handler(int move_flag, t_game *game_data)
+void	game_loop(t_game *game_data)
+{
+	mlx_hook(game_data->mlx_window, 2, 1, input_handler, game_data);
+	mlx_hook(game_data->mlx_window, CLOSE_WINDOW, 0, exit_game, game_data);
+	mlx_loop(game_data->mlx_ptr);
+}
+
+static int	input_handler(int key, t_game *game_data)
+{
+	int	move_flag;
+
+	move_flag = 0;
+	if (key == KEY_ESC)
+		exit_game(game_data);
+	else if (key == KEY_W && game_data->map[game_data->player_loc_y - 1]
+		[game_data->player_loc_x] != '1')
+		move_flag = player_pos_updater(KEY_W, game_data);
+	else if (key == KEY_S && game_data->map[game_data->player_loc_y + 1]
+		[game_data->player_loc_x] != '1')
+		move_flag = player_pos_updater(KEY_S, game_data);
+	else if (key == KEY_A && game_data->map[game_data->player_loc_y]
+		[game_data->player_loc_x - 1] != '1')
+		move_flag = player_pos_updater(KEY_A, game_data);
+	else if (key == KEY_D && game_data->map[game_data->player_loc_y]
+		[game_data->player_loc_x + 1] != '1')
+		move_flag = player_pos_updater(KEY_D, game_data);
+	event_handler(move_flag, game_data);
+	if (move_flag != 0)
+		render_map(game_data);
+	return (0);
+}
+
+static void	event_handler(int move_flag, t_game *game_data)
 {
 	int	i;
 	int	h;
@@ -25,16 +60,11 @@ void	event_handler(int move_flag, t_game *game_data)
 	{
 		game_data->map[game_data->player_loc_y][game_data->player_loc_x] = '0';
 		game_data->collectible_count--;
-		if (game_data->collectible_count == 0)
-		{
-			mlx_destroy_image(game_data->mlx_ptr, game_data->exit_texture);
-			game_data->exit_texture = mlx_xpm_file_to_image(game_data->mlx_ptr,
-					"textures/exiton.xpm", &i, &h);
-		}
 	}
 	if (game_data->collectible_count == 0
-		&& game_data->map[game_data->player_loc_y][game_data->player_loc_x] == 'E')
-		exit_game(game_data);
+		&& game_data->map[game_data->player_loc_y]
+		[game_data->player_loc_x] == 'E')
+		last_move_exit(game_data);
 	if (move_flag != 0)
 	{
 		game_data->move_count++;
@@ -43,38 +73,30 @@ void	event_handler(int move_flag, t_game *game_data)
 	}
 }
 
-int	render_map(t_game *game_data)
+static int	player_pos_updater(int key, t_game *game_data)
 {
-	render_map_pt_two(game_data);
-	mlx_put_image_to_window(game_data->mlx_ptr, game_data->mlx_window, game_data->player_active_texture,
-		game_data->player_loc_x * PIXEL, game_data->player_loc_y * PIXEL);
-	return (0);
+	if (key == KEY_W)
+		game_data->player_loc_y--;
+	else if (key == KEY_S)
+		game_data->player_loc_y++;
+	else if (key == KEY_A)
+	{
+		game_data->player_active_texture = game_data->player_left_texture;
+		game_data->player_loc_x--;
+	}
+	else if (key == KEY_D)
+	{
+		game_data->player_active_texture = game_data->player_right_texture;
+		game_data->player_loc_x++;
+	}
+	return (1);
 }
 
-static void	render_map_pt_two(t_game *game_data)
+static void	last_move_exit(t_game *game_data)
 {
-	int	x;
-	int	y;
-
-	y = 0;
-	while (y < game_data->map_height)
-	{
-		x = 0;
-		while (x < game_data->map_width)
-		{
-			mlx_put_image_to_window(game_data->mlx_ptr, game_data->mlx_window,
-				game_data->background_texture, x * PIXEL, y * PIXEL);
-			if (game_data->map[y][x] == 'E')
-				mlx_put_image_to_window(game_data->mlx_ptr, game_data->mlx_window,
-					game_data->exit_texture, x * PIXEL, y * PIXEL);
-			else if (game_data->map[y][x] == '1')
-				mlx_put_image_to_window(game_data->mlx_ptr, game_data->mlx_window,
-					game_data->wall_texture, x * PIXEL, y * PIXEL);
-			else if (game_data->map[y][x] == 'C')
-				mlx_put_image_to_window(game_data->mlx_ptr, game_data->mlx_window,
-					game_data->collectible_texture, x * PIXEL, y * PIXEL);
-			x++;
-		}
-		y++;
-	}
+	game_data->move_count++;
+	write(1, "Total Move Count: ", 18);
+	ft_putnbr(game_data->move_count);
+	write(1, "\n", 1);
+	exit_game(game_data);
 }

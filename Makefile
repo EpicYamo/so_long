@@ -1,6 +1,6 @@
 SRCS = so_long.c get_next_line_utils.c get_next_line.c map_utils_pt_one.c map_utils_pt_two.c \
 		map_utils_pt_three.c map_utils_pt_four.c utils_pt_one.c \
-		game_utils_pt_one.c game_utils_pt_two.c \
+		game_utils_pt_one.c game_utils_pt_two.c game_utils_pt_three.c \
 		
 NAME = so_long
 CC = cc

@@ -6,13 +6,12 @@
 /*   By: aaycan <aaycan@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 14:14:32 by aaycan            #+#    #+#             */
-/*   Updated: 2025/03/19 14:14:32 by aaycan           ###   ########.fr       */
+/*   Updated: 2025/03/26 17:44:37 by aaycan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 #include <stdlib.h>
-#include <stdio.h>
 
 static void	check_args(int argc, char **argv);
 static void	init_game_data(t_game *game_data);
@@ -39,8 +38,10 @@ static void	check_args(int argc, char **argv)
 {
 	if ((argc != 2) || (argc == 2 && !argv[1][0]) || (ft_strlen(argv[1]) < 5))
 		fail_exit();
-	if ((argv[1][ft_strlen(argv[1]) - 1] != 'r') || (argv[1][ft_strlen(argv[1]) - 2] != 'e')
-		|| (argv[1][ft_strlen(argv[1]) - 3] != 'b') || (argv[1][ft_strlen(argv[1]) - 4] != '.'))
+	if ((argv[1][ft_strlen(argv[1]) - 1] != 'r')
+		|| (argv[1][ft_strlen(argv[1]) - 2] != 'e')
+		|| (argv[1][ft_strlen(argv[1]) - 3] != 'b')
+		|| (argv[1][ft_strlen(argv[1]) - 4] != '.'))
 		fail_exit();
 }
 
