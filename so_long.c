@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaycan <aaycan@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: aaycan < aaycan@student.42kocaeli.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 14:14:32 by aaycan            #+#    #+#             */
-/*   Updated: 2025/03/26 17:44:37 by aaycan           ###   ########.fr       */
+/*   Updated: 2025/04/11 22:12:25 by aaycan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 static void	check_args(int argc, char **argv);
 static void	init_game_data(t_game *game_data);
+static void	exit_game_unexpectedly(t_game *game_data);
 
 int	main(int argc, char **argv)
 {
@@ -31,7 +32,7 @@ int	main(int argc, char **argv)
 	fill_map(game_data, argv);
 	check_and_finish_map(game_data, line_count);
 	run_game(game_data);
-	exit_game(game_data);
+	exit_game_unexpectedly(game_data);
 }
 
 static void	check_args(int argc, char **argv)
@@ -67,4 +68,20 @@ static void	init_game_data(t_game *game_data)
 	game_data->background_texture = NULL;
 	game_data->collectible_texture = NULL;
 	game_data->wall_texture = NULL;
+}
+
+static void	exit_game_unexpectedly(t_game *game_data)
+{
+	mlx_destroy_image(game_data->mlx_ptr, game_data->exit_texture);
+	mlx_destroy_image(game_data->mlx_ptr, game_data->wall_texture);
+	mlx_destroy_image(game_data->mlx_ptr, game_data->collectible_texture);
+	mlx_destroy_image(game_data->mlx_ptr, game_data->background_texture);
+	mlx_destroy_image(game_data->mlx_ptr, game_data->player_left_texture);
+	mlx_destroy_image(game_data->mlx_ptr, game_data->player_right_texture);
+	mlx_destroy_window(game_data->mlx_ptr, game_data->mlx_window);
+	mlx_destroy_display(game_data->mlx_ptr);
+	free(game_data->mlx_ptr);
+	free_game_data(game_data, game_data->map_height, 2);
+	write(2, "Game Crashed!\nA problem has occurred with the (mlx loop)\n", 57);
+	exit(EXIT_FAILURE);
 }

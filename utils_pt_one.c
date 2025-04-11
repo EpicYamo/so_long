@@ -6,7 +6,7 @@
 /*   By: aaycan <aaycan@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 14:13:48 by aaycan            #+#    #+#             */
-/*   Updated: 2025/04/07 13:46:04 by aaycan           ###   ########.fr       */
+/*   Updated: 2025/04/10 12:05:00 by aaycan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	free_data_and_fail_exit(t_game *game_data, int line_count, int option)
 
 int	exit_game(t_game *game_data)
 {
-	mlx_loop_end(game_data->mlx_ptr);
 	mlx_destroy_image(game_data->mlx_ptr, game_data->exit_texture);
 	mlx_destroy_image(game_data->mlx_ptr, game_data->wall_texture);
 	mlx_destroy_image(game_data->mlx_ptr, game_data->collectible_texture);

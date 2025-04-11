@@ -15,7 +15,7 @@ $(MLX):
 	@make -C $(MLX_DIR)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(MLX) -lX11 -lXext -lm
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(MLX) -lX11 -lXext
 
 clean:
 	rm -f $(OBJS)

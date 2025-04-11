@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_utils_pt_two.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaycan < aaycan@student.42kocaeli.com.t    +#+  +:+       +#+        */
+/*   By: aaycan <aaycan@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 17:40:09 by aaycan            #+#    #+#             */
-/*   Updated: 2025/04/08 15:04:13 by aaycan           ###   ########.fr       */
+/*   Updated: 2025/04/10 11:27:48 by aaycan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,6 @@ static int	input_handler(int key, t_game *game_data)
 
 static void	event_handler(int move_flag, t_game *game_data)
 {
-	int	i;
-	int	h;
-
-	i = 0;
 	if (game_data->map[game_data->player_loc_y][game_data->player_loc_x] == 'C')
 	{
 		game_data->map[game_data->player_loc_y][game_data->player_loc_x] = '0';
