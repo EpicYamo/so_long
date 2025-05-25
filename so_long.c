@@ -12,6 +12,7 @@
 
 #include "so_long.h"
 #include <stdlib.h>
+#include <unistd.h>
 
 static void	check_args(int argc, char **argv);
 static void	init_game_data(t_game *game_data);
