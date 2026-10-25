@@ -20,8 +20,8 @@ static void	last_move_exit(t_game *game_data);
 
 void	game_loop(t_game *game_data)
 {
-	mlx_hook(game_data->mlx_window, 2, 1, input_handler, game_data);
-	mlx_hook(game_data->mlx_window, CLOSE_WINDOW, 0, exit_game, game_data);
+	mlx_hook(game_data->mlx_window, 2, 1, (int (*)())input_handler, game_data);
+	mlx_hook(game_data->mlx_window, CLOSE_WINDOW, 0, (int (*)())exit_game, game_data);
 	mlx_loop(game_data->mlx_ptr);
 }
 

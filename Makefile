@@ -4,7 +4,7 @@ SRCS = so_long.c get_next_line_utils.c get_next_line.c map_utils_pt_one.c map_ut
 		
 NAME = so_long
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -Wno-cast-function-type
 MLX_DIR = ./minilibx-linux
 MLX = $(MLX_DIR)/libmlx.a
 OBJS = $(SRCS:.c=.o)
@@ -12,7 +12,8 @@ OBJS = $(SRCS:.c=.o)
 all: $(MLX) $(NAME)
 
 $(MLX):
-	@make -C $(MLX_DIR)
+	@$(MAKE) -C $(MLX_DIR) CFLAGS="-O2 -std=gnu89" || true
+	@test -f $(MLX) || (echo "MiniLibX build failed" && exit 1)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(MLX) -lX11 -lXext

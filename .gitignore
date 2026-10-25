@@ -1,0 +1,5 @@
+so_long
+*.o
+minilibx-linux/*.a
+minilibx-linux/obj/
+minilibx-linux/test/
